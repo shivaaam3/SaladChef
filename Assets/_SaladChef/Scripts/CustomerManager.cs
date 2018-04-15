@@ -30,6 +30,8 @@ namespace SaladChef
 		#region Monobehaviour_Methods
 		void OnEnable()
 		{
+			waitingTimeSlider.maxValue = waitingTime;
+			waitingTimeSlider.value = waitingTime;
 			vegetables = new List<int>{1,2,3,4,5,6};	// Resets the list everytime the gameobject is enabled
 			ChangeAvatar();
 			MakeOrder();
@@ -47,7 +49,8 @@ namespace SaladChef
 		
 		// Update is called once per frame
 		void Update () {
-			
+			if(waitingTimeSlider.value>0)
+			waitingTimeSlider.value -= Time.deltaTime;
 		}
 		#endregion 
 
