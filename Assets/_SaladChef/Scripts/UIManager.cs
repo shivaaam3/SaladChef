@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace SaladChef
 {
@@ -20,6 +21,7 @@ namespace SaladChef
 				return instance;
 			}
 		}
+
 		#endregion
 	}
 }
