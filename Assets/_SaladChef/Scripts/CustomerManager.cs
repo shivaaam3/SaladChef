@@ -21,14 +21,17 @@ namespace SaladChef
 		private Slider waitingTimeSlider;
 		[SerializeField]
 		private Image waitingTimeSliderFill;
+		[SerializeField]
+		PlayerController playerControllerLeft;
+		[SerializeField]
+		PlayerController playerControllerRight;
 
 		private float counterRate;
 		private bool changePlayer;
-		private bool isAngry;
+		public bool isAngry,rightPlayerAngry,leftPlayerAngry;
 		private List<int> menuVegetables;
 
 		public  List<int> vegetablesPicked;
-		public PlayerController playerController;
 		#endregion
 
 
@@ -38,8 +41,9 @@ namespace SaladChef
 			waitingTimeSliderFill.color = Color.green;
 			counterRate = 1;
 			isAngry = false;
+			rightPlayerAngry = false;
+			leftPlayerAngry = false;
 			changePlayer = true;
-			playerController = GameObject.FindObjectOfType<PlayerController>();
 			menuVegetables = new List<int>{1,2,3,4,5,6};	// Resets the list everytime the gameobject is enabled
 			ChangeAvatar();
 			MakeOrder();
@@ -65,8 +69,8 @@ namespace SaladChef
 			{
 				if(changePlayer)
 				{
+					UpdateScore();
 					changePlayer = false;
-					playerController.UpdateScore(GameConstants.scoreDecrementCustomer);
 					ChangePlayer();
 				}
 			}
@@ -105,7 +109,7 @@ namespace SaladChef
 			UIManager.Instance.avatarSprites.RemoveAt(temp);
 		}
 
-		public void CompareOrder()
+		public void CompareOrder(PlayerController playerController)
 		{
 
 			if(vegetablesPicked.Count == playerController.choppedVegetables.Count)
@@ -114,28 +118,33 @@ namespace SaladChef
 				{
 					if(playerController.choppedVegetables[i] != vegetablesPicked[i])
 					{
-						WrongOrder();
+						WrongOrder(playerController);
 						break;
 					}
+					RightOrder(playerController);
 				}
-				RightOrder();
 			}
 			else
-				WrongOrder();
+				WrongOrder(playerController);
 		}
 
-		void RightOrder()
+		void RightOrder(PlayerController player)
 		{
 			Debug.Log("Right order");
-			playerController.UpdateScore(GameConstants.scoreIncrement);
-			playerController.ClearPlate();
-			playerController.choppedVegetables.Clear();
+			player.UpdateScore(GameConstants.scoreIncrement);
+			player.ClearPlate();
+			player.choppedVegetables.Clear();
 			ChangePlayer();
 		}
 
-		void WrongOrder()
+		void WrongOrder(PlayerController player)
 		{
 			Debug.Log("Wrong order");
+			if(player.gameObject.tag == "RightPlayer")
+				rightPlayerAngry = true;
+			else if(player.gameObject.tag == "LeftPlayer")
+				leftPlayerAngry = true;
+			
 			isAngry = true;
 			counterRate += 0.5f;
 			waitingTimeSliderFill.color = Color.red;
@@ -145,6 +154,32 @@ namespace SaladChef
 		{
 			this.enabled = false;
 			this.enabled = true;
+		}
+
+		void UpdateScore()
+		{
+			if(!isAngry)
+			{
+				playerControllerRight.UpdateScore(GameConstants.scoreDecrementCustomer);
+				playerControllerLeft.UpdateScore(GameConstants.scoreDecrementCustomer);
+			}
+			else
+			{
+				if(rightPlayerAngry && leftPlayerAngry)
+				{
+					playerControllerRight.UpdateScore(GameConstants.scoreDecrementCustomer*2);
+					playerControllerLeft.UpdateScore(GameConstants.scoreDecrementCustomer*2);
+				}
+
+				else if(rightPlayerAngry && !leftPlayerAngry)
+				{
+					playerControllerRight.UpdateScore(GameConstants.scoreDecrementCustomer*2);
+				}
+				else if(!rightPlayerAngry && leftPlayerAngry)
+				{
+					playerControllerLeft.UpdateScore(GameConstants.scoreDecrementCustomer*2);
+				}
+			}
 		}
 		#endregion
 	}

@@ -9,11 +9,6 @@ namespace SaladChef
 		public string vegetableName;
 		public int vegetableNumber;
 
-		public PlayerController playerController;
-		// Use this for initialization
-		void Start () {
-			playerController = GameObject.FindObjectOfType<PlayerController>();
-		}
 
 
 		/// <summary>
@@ -22,7 +17,7 @@ namespace SaladChef
 		/// else changes the vegetables that are already in the script
 		/// Enables the picked vegetables' sprite on the chopping board 
 		/// </summary>
-		public void OnVegetableButtonPress()
+		public void OnVegetableButtonPress(PlayerController playerController)
 		{
 
 			if(playerController.pickedVegetables.Count<2)			//If picked vegetables are less than two then adds to the list 
