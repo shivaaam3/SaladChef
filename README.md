@@ -10,11 +10,13 @@ Sprites and Graphics Credits:
 
 Game Details:
 1) Two player game.
-2) Right player controls:
-    a) Navigation: ↑ ↓ ← →    b) Enter: Right shift
+2) Right player controls-
+a) Navigation: ↑ ↓ ← →    
+b) Enter: Right shift
   
-3) Right player controls:
-    a) Navigation: w s a d    b) Enter: Left Shift
+3) Right player controls-
+a) Navigation: w s a d    
+b) Enter: Left Shift
   
 4) Players compete against each other to make higher score.
 5) Player can pick atmost two vegetables at a time.
