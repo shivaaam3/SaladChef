@@ -14,7 +14,7 @@ Game Details:
 a) Navigation: ↑ ↓ ← →    
 b) Enter: Right shift
   
-3) Right player controls-
+3) Left player controls-
 a) Navigation: w s a d    
 b) Enter: Left Shift
   
